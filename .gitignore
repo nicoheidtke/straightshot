@@ -1,0 +1,39 @@
+# Build output
+/dist/
+/.build/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*~
+.env
+.env.*
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Poetry
+poetry.lock
+.poetry/
+
+# Logs
+*.log
+logs/
+
+

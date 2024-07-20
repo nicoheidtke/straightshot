@@ -1,0 +1,16 @@
+navigation:
+  - title: "Home"
+    url: "/"
+    icon: "home"
+  - title: "Articles" 
+    url: "/blog/"
+    icon: "article"
+  - title: "About"
+    url: "/about.html"
+    icon: "person"
+
+footer_links:
+  - title: "Privacy Policy"
+    url: "/privacy"
+  - title: "Terms of Service"
+    url: "/terms"

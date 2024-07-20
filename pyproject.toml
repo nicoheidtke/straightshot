@@ -1,0 +1,115 @@
+[project]
+name = "straightshot"
+version = "0.2.0"
+description = "A Python static site generator focused on simplicity and dynamic content loading."
+authors = [
+    {name = "Nico Heidtke", email = "straightshot@gmx.de"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+keywords = ["static site generator", "ssg", "python", "markdown", "jinja2"]
+dependencies = [
+    "markdown",
+    "jinja2",
+    "python-frontmatter",
+    "pygments",
+    "pydantic",
+    "pyyaml",
+    "mdit-py-plugins",
+    "types-pygments"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Internet :: WWW/HTTP :: Site Management",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup :: Markdown",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/nicoheidtke/straightshot"
+"Documentation" = "https://github.com/nicoheidtke/straightshot/tree/main/docs"
+"Bug Reports" = "https://github.com/nicoheidtke/straightshot/issues"
+"Source" = "https://github.com/nicoheidtke/straightshot"
+
+[project.scripts]
+straightshot = "straightshot.main:main"
+
+[tool.poetry]
+package-mode = true
+packages = [{include = "straightshot"}]
+include = [
+    "docs/features.md",
+    "example-site/**/*",
+    "README.md",
+    "LICENSE"
+]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+mypy = "*"
+types-markdown = "*"
+types-PyYAML = "*"
+ruff = "*"
+poethepoet = "*"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+exclude = ".venv"
+python_version = "3.12"
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict = true
+#strict_optional = true
+namespace_packages = true
+
+pretty = true
+show_column_numbers = true
+show_error_context = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[[tool.mypy.overrides]]
+module = "frontmatter"
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "C", "N", "B", "I", "Q", "S"]
+ignore = ["E501"]
+
+[tool.poe]
+verbosity = 1
+
+[tool.poe.tasks]
+type_check = "mypy straightshot/ example-site/serve.py"
+lint = "ruff check"
+test = "pytest straightshot/"
+check.sequence = ["lint", "type_check", "test"]
+
+format = "ruff format straightshot/ example-site/serve.py"
+package = "poetry build"
+all.sequence = ["format", "check", "package"]
+
+example_build = "python -m straightshot.main --content-dir example-site/content --templates-dir example-site/templates --static-dir example-site/static --output-dir .build/example-site --site-config example-site/content/site.yaml --clean --drafts"
+example_serve = "python example-site/serve.py .build/example-site"
+example.sequence = ["example_build", "example_serve"]

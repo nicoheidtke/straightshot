@@ -1,0 +1,188 @@
+/* 
+ * Syntax highlighting styles for code blocks
+ * Compatible with both light and dark themes
+ */
+
+:root {
+  --syntax-background: #f8f8f8;
+  --syntax-text: #333333;
+  --syntax-comment: #998;
+  --syntax-keyword: #d73a49;
+  --syntax-string: #032f62;
+  --syntax-number: #005cc5;
+  --syntax-function: #6f42c1;
+  --syntax-class: #22863a;
+  --syntax-variable: #e36209;
+  --syntax-operator: #d73a49;
+  --syntax-punctuation: #24292e;
+}
+
+html.dark-mode {
+  --syntax-background: #282c34;
+  --syntax-text: #abb2bf;
+  --syntax-comment: #7f848e;
+  --syntax-keyword: #c678dd;
+  --syntax-string: #98c379;
+  --syntax-number: #d19a66;
+  --syntax-function: #61afef;
+  --syntax-class: #e5c07b;
+  --syntax-variable: #e06c75;
+  --syntax-operator: #56b6c2;
+  --syntax-punctuation: #abb2bf;
+}
+
+.highlight {
+  background-color: var(--syntax-background);
+  color: var(--syntax-text);
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+.highlight pre {
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  tab-size: 4;
+}
+
+.highlight .c,
+.highlight .c1,
+.highlight .cm,
+.highlight .cs {
+  color: var(--syntax-comment);
+  font-style: italic;
+}
+
+.highlight .k,
+.highlight .kc,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt {
+  color: var(--syntax-keyword);
+  font-weight: 600;
+}
+
+.highlight .s,
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .s1,
+.highlight .s2,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx,
+.highlight .sr,
+.highlight .ss {
+  color: var(--syntax-string);
+}
+
+.highlight .m,
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .mo,
+.highlight .il {
+  color: var(--syntax-number);
+}
+
+.highlight .na,
+.highlight .nc,
+.highlight .nd,
+.highlight .ne,
+.highlight .nf,
+.highlight .nx {
+  color: var(--syntax-function);
+}
+
+.highlight .nn,
+.highlight .nt {
+  color: var(--syntax-class);
+}
+
+.highlight .nb,
+.highlight .bp,
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi {
+  color: var(--syntax-variable);
+}
+
+.highlight .o,
+.highlight .ow {
+  color: var(--syntax-operator);
+}
+
+.highlight .p,
+.highlight .cp {
+  color: var(--syntax-punctuation);
+}
+
+/* Line numbers */
+.highlight .lineno {
+  color: var(--syntax-comment);
+  display: inline-block;
+  padding: 0 0.5em;
+  border-right: 1px solid #ddd;
+  margin-right: 0.5em;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+html.dark-mode .highlight .lineno {
+  border-right-color: #444;
+}
+
+/* Specific language adjustments */
+/* Python */
+.highlight.python .k {
+  color: var(--syntax-keyword);
+}
+
+.highlight.python .nb {
+  color: var(--syntax-function);
+}
+
+/* JavaScript */
+.highlight.javascript .nx {
+  color: var(--syntax-text);
+}
+
+.highlight.javascript .kd {
+  color: var(--syntax-keyword);
+}
+
+/* CSS */
+.highlight.css .k {
+  color: var(--syntax-keyword);
+}
+
+.highlight.css .nt {
+  color: var(--syntax-variable);
+}
+
+/* HTML */
+.highlight.html .nt {
+  color: var(--syntax-keyword);
+}
+
+.highlight.html .na {
+  color: var(--syntax-variable);
+}
+
+.highlight.html .s {
+  color: var(--syntax-string);
+}
+
+/* Add border for inline code */
+code {
+  border-radius: 3px;
+  padding: 0.2em 0.4em;
+}

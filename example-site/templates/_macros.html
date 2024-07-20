@@ -1,0 +1,36 @@
+{% macro language_switcher(page) %}
+{% if page.alternate_languages %}
+<div class="language-switcher">
+    {% set all_languages = [page.metadata.lang] + (page.alternate_languages.keys() | list) %}
+    {% for lang_code in all_languages | sort %}
+        {% if lang_code == page.metadata.lang %}
+            <span class="lang-current lang-btn">{{ lang_code.upper() }}</span>
+        {% else %}
+            <a href="{{ url_for(page.alternate_languages[lang_code].url) }}" class="lang-link lang-btn" title="Read in {{ lang_code.upper() }}">{{ lang_code.upper() }}</a>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro share_menu(page, site, menu_id='share-menu') %}
+<div class="share-menu-container">
+    <button class="share-toggle-btn" aria-expanded="false" aria-controls="{{ menu_id }}" title="Share this article">
+        <span class="share-btn-label">Share</span>
+    </button>
+    <div class="share-menu" id="{{ menu_id }}">
+        <a class="share-btn" href="https://twitter.com/intent/tweet?text={{ page.metadata.title|urlencode }}&url={{ absolute_url_for(page.url) }}" target="_blank" rel="noopener noreferrer" title="Share on Twitter">
+            <img src="{{ url_for('static/icons/twitter.svg') }}" alt="Twitter" width="22" height="22" />
+        </a>
+        <a class="share-btn" href="https://www.linkedin.com/shareArticle?mini=true&url={{ absolute_url_for(page.url) }}&title={{ page.metadata.title|urlencode }}" target="_blank" rel="noopener noreferrer" title="Share on LinkedIn">
+            <img src="{{ url_for('static/icons/linkedin.svg') }}" alt="LinkedIn" width="22" height="22" />
+        </a>
+        <a class="share-btn" href="https://reddit.com/submit?url={{ absolute_url_for(page.url) }}&title={{ page.metadata.title|urlencode }}" target="_blank" rel="noopener noreferrer" title="Share on Reddit">
+            <img src="{{ url_for('static/icons/reddit.svg') }}" alt="Reddit" width="22" height="22" />
+        </a>
+        <button class="share-btn copy-link-btn" data-url="{{ absolute_url_for(page.url) }}" title="Copy article URL">
+            <img src="{{ url_for('static/icons/link.svg') }}" alt="Copy link" width="22" height="22" />
+        </button>
+    </div>
+</div>
+{% endmacro %}

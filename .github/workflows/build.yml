@@ -1,0 +1,20 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        # Project requires Python 3.12+
+        python-version: ['3.12']
+    
+    uses: ./.github/workflows/setup-python.yml
+    with:
+      python-version: ${{ matrix.python-version }}
+      run-checks: true
+      build-package: true

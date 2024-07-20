@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Blog - {{ site.title }}{% endblock %}
+{% block description %}Read articles about software development, technology, and more on {{ site.title }}{% endblock %}
+{% block og_title %}Blog | {{ site.title }}{% endblock %}
+{% block og_description %}Read articles about software development, technology, and more on {{ site.title }}{% endblock %}
+{% block og_url %}{{ absolute_url_for('blog/index.html') }}{% endblock %}
+{% block canonical_url %}{{ absolute_url_for('blog/index.html') }}{% endblock %}
+
+{% block structured_data %}
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "{{ site.title }} Blog",
+  "description": "Read articles about software development, technology, and more on {{ site.title }}",
+  "url": "{{ absolute_url_for('blog/index.html') }}",
+  "publisher": {
+    "@type": "Person",
+    "name": "{{ site.author }}"
+  },
+  "blogPost": [
+    {% for article in articles[:10] %}
+    {
+      "@type": "BlogPosting",
+      "headline": "{{ article.metadata.title }}",
+      "description": "{{ article.metadata.description }}",
+      "url": "{{ absolute_url_for(article.url) }}",
+      "datePublished": "{{ article.metadata.written.isoformat() }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+{% endblock %}
+
+{% block content %}
+<main class="container">
+    <h1>Blog</h1>
+    
+    <div class="topic-filtering">
+        <div class="topic-filter-controls">
+            <button id="show-topic-filters" class="button">Filter by Topic</button>
+            <button id="clear-topic-selection" class="topic-filter-clear" style="display: none;">Clear Filters</button>
+        </div>
+    </div>
+    
+    <div id="topic-filters" class="active-topic-list" style="display: none;">
+        {% for topic, items in site.topics|dictsort %}
+        <button class="post-topic topic-toggle" data-topic="{{ topic }}">
+            {{ topic }} <span class="topic-count">({{ items|length }})</span>
+        </button>
+        {% endfor %}
+    </div>
+    
+    <div id="post-grid" class="post-grid"><!-- Article cards will be rendered by JS --></div>
+    <noscript>
+      <div class="post-list-fallback">
+        <ul>
+        {% for article in articles %}
+          <li>
+            <a href="{{ url_for(article.url) }}">{{ article.metadata.title }}</a>
+            <span class="post-meta">{{ article.metadata.written | date }}</span>
+            {% if article.metadata.topics %}
+              <span class="post-topics">
+                {% for topic in article.metadata.topics %}
+                  <span class="post-topic">{{ topic }}</span>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+              </span>
+            {% endif %}
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    </noscript>
+    <div id="loading-indicator" class="loading-indicator" style="display: none;">Loading more articles...</div>
+    <div id="no-results" class="no-results" style="display: none;">
+        <p>No articles match the selected topics.</p>
+        <button id="reset-filters" class="button">Reset Filters</button>
+    </div>
+</main>
+{% endblock %}

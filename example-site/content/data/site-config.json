@@ -1,0 +1,25 @@
+{
+  "api": {
+    "base_url": "https://api.example.com",
+    "version": "v1",
+    "endpoints": {
+      "users": "/users",
+      "posts": "/posts",
+      "comments": "/comments"
+    }
+  },
+  "features": [
+    {
+      "name": "Fast Performance",
+      "description": "Lightning-fast static site generation"
+    },
+    {
+      "name": "SEO Optimized", 
+      "description": "Built-in SEO features and optimizations"
+    },
+    {
+      "name": "Responsive Design",
+      "description": "Mobile-first responsive templates"
+    }
+  ]
+}

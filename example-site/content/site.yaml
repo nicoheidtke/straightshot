@@ -1,0 +1,59 @@
+---
+# Site metadata
+title: Example Site
+description: Thoughts on software development, technology, and more
+author: Jon Doe
+url: https://example.com
+language: en
+base_url: "/"
+
+
+# Content settings
+custom_tags:
+  youtube: tags/youtube.html
+  slides: tags/slides.html
+  link: tags/link.html
+  site_meta: tags/site_meta.html
+
+standalone_pages:
+  - template: index.html
+    output: index.html
+  - template: about.html
+    output: about.html
+  - template: sitemap.xml
+    output: sitemap.xml
+  - template: feed.xml
+    output: feed.xml
+  - template: blog_index.html
+    output: blog/index.html
+
+# Social media
+social:
+  twitter: "@jon-doe"
+  github: "jon-doe"
+  linkedin: "jon-doe"
+
+# SEO settings
+seo:
+  keywords: software development, programming, technology, architecture, design patterns
+  google_analytics: "" # Add your Google Analytics ID here if needed
+  enable_open_graph: true
+  twitter_card_type: summary_large_image
+  default_image: static/images/site-default.jpg
+
+# Site appearance
+theme:
+  primary_color: "#ff9a3c"
+  highlight_style: github-dark
+  default_mode: auto # auto, light, or dark
+
+# Custom data for templates
+data:
+  # Direct inline data
+  build_info:
+    version: "1.0.0"
+    built_with: "straightshot"
+  
+  # Include external data files
+  navigation: $$include_yaml data/navigation.yaml
+  config: $$include_json data/site-config.json

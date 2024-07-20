@@ -1,0 +1,2 @@
+{# Expects 'url' and 'title' in context. Optional 'target' (ContentFile) #}
+<a href="{{ url | default('#') }}">{{ title | default('Link Error') }}</a>

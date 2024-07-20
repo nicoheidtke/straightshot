@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block canonical_url %}{{ absolute_url_for('index.html') }}{% endblock %}
+{% block og_url %}{{ absolute_url_for('index.html') }}{% endblock %}
+
+{% block structured_data %}
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site.title }}",
+  "description": "{{ site.description }}",
+  "url": "{{ absolute_url_for('') }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.author }}"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "{{ site.author }}"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for page in site.articles[:3] %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "url": "{{ absolute_url_for(page.url) }}",
+        "name": "{{ page.metadata.title }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  },
+  "keywords": "{{ site.seo.keywords }}"
+}
+{% endblock %}
+
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <p class="hero-tagline">{{ site.description }}</p>
+        <div class="hero-cta">
+            <a href="{{ url_for('blog/index.html') }}" class="button primary">Explore Articles</a>
+            <a href="{{ url_for('about.html') }}" class="button secondary">About Me</a>
+        </div>
+    </div>
+</section>
+
+<section class="featured-posts">
+    <h2>Featured Articles</h2>
+    <div class="post-grid" id="post-grid"><!-- Article cards will be rendered by JS --></div>
+    <div class="view-all">
+        <a href="{{ url_for('blog/index.html') }}" class="button">View all articles</a>
+    </div>
+</section>
+
+<section class="topics-section">
+    <h2>Browse by Topic</h2>
+    <div class="topic-cloud">
+        {% for topic, items in site.topics|dictsort %}
+        {# Update the href to point to the blog page with a topic query parameter #}
+        <a href="{{ url_for('blog/index.html') }}?topic={{ topic }}" class="post-topic topic-toggle">
+            {{ topic }} <span class="topic-count">({{ items|length }})</span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}
+{% endblock %}

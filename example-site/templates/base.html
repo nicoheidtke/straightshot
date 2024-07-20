@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="{{ site.language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ site.title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ site.description }}{% endblock %}">
+    
+    <!-- SEO -->
+    <meta property="og:title" content="{% block og_title %}{{ site.title }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ site.description }}{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ absolute_url_for(site.seo.default_image) }}{% endblock %}">
+    <meta name="twitter:card" content="{{ site.seo.twitter_card_type }}">
+    <meta name="twitter:site" content="{{ site.social.twitter }}">
+    <meta name="twitter:creator" content="{{ site.social.twitter }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{% block canonical_url %}{% endblock %}">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {% block structured_data %}
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "{{ site.title }}",
+        "url": "{{ absolute_url_for('') }}",
+        "description": "{{ site.description }}",
+        "author": {
+            "@type": "Person",
+            "name": "{{ site.author }}"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "{{ site.author }}"
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ absolute_url_for('search') }}?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    {% endblock %}
+    </script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static/css/syntax.css') }}">
+    
+    <!-- Initial theme setting based on user preference -->
+    <script>
+        // Pass base_url to JavaScript
+        window.baseUrl = "{{ site.base_url }}";
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+        const storedTheme = localStorage.getItem("theme");
+        
+        if (storedTheme === "dark" || (!storedTheme && prefersDarkScheme.matches)) {
+            document.documentElement.classList.add("dark-mode");
+        } else {
+            document.documentElement.classList.add("light-mode");
+        }
+    </script>
+    
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+    <!-- Add theme toggle as a fixed position element at the top right -->
+    <button id="theme-toggle" title="Toggle dark/light mode">
+        <span class="toggle-text">Theme</span>
+    </button>
+    
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="{{ url_for('') }}" class="site-title">{{ site.title }}</a>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="{{ url_for('') }}" class="{% block nav_home %}{% endblock %}">Home</a></li>
+                        <li><a href="{{ url_for('blog/index.html') }}" class="{% block nav_blog %}{% endblock %}">Blog</a></li>
+                        <li><a href="{{ url_for('about.html') }}" class="{% block nav_about %}{% endblock %}">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    &copy; {{ site.current_year }} {{ site.author }}
+                </div>
+                <div class="footer-links">
+                    <a href="{{ url_for('feed.xml') }}" title="RSS Feed">RSS</a>
+                    <a href="{{ url_for('sitemap.xml') }}" title="Sitemap">Sitemap</a>
+                    {% if site.data %}
+                    <button id="site-info-toggle" title="Site Technical Info" class="footer-button">Site Info</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% if site.data %}
+    <!-- Site Info Modal - reusing existing card styles -->
+    <div id="site-info-modal" class="site-info-overlay" style="display: none;">
+        <div class="post-card site-info-card">
+            <div class="post-card-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="margin: 0;">Site Technical Information</h3>
+                    <button id="site-info-close" class="modal-close-button">&times;</button>
+                </div>
+                
+                {% if site.data.build_info %}
+                <p style="text-align: center; font-style: italic; color: var(--color-muted); margin-bottom: 1rem;">
+                    Built with {{ site.data.build_info.built_with }} v{{ site.data.build_info.version }}
+                </p>
+                {% endif %}
+                
+                {% if site.data.config and site.data.config.features %}
+                <details>
+                    <summary>Technical Features</summary>
+                    <ul style="margin-top: 0.5rem;">
+                        {% for feature in site.data.config.features %}
+                        <li style="margin-bottom: 0.5rem;">
+                            <strong>{{ feature.name }}</strong>: {{ feature.description }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </details>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static/js/main.js') }}" defer></script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

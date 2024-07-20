@@ -1,0 +1,17 @@
+# Include documentation files
+include docs/*.md
+recursive-include docs *
+
+# Include example site
+recursive-include example-site *
+
+# Include standard files
+include README.md
+include LICENSE
+include pyproject.toml
+
+# Exclude compiled files and caches
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude *.egg-info

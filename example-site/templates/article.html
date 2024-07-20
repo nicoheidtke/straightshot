@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% import '_macros.html' as macros %}
+
+{% block title %}{{ page.metadata.title }} | {{ site.title }}{% endblock %}
+{% block description %}{{ page.metadata.description }}{% endblock %}
+{% block og_title %}{{ page.metadata.title }}{% endblock %}
+{% block og_description %}{{ page.metadata.description }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_url %}{{ absolute_url_for(page.url) }}{% endblock %}
+{% block canonical_url %}{{ absolute_url_for(page.url) }}{% endblock %}
+{% block og_image %}{% if page.metadata.image %}{{ absolute_url_for(page.metadata.image) }}{% else %}{{ absolute_url_for(site.seo.default_image) }}{% endif %}{% endblock %}
+
+{% block structured_data %}
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ page.metadata.title }}",
+  "description": "{{ page.metadata.description }}",
+  "image": "{% if page.metadata.image %}{{ absolute_url_for(page.metadata.image) }}{% else %}{{ absolute_url_for(site.seo.default_image) }}{% endif %}",
+  "datePublished": "{{ page.metadata.written.isoformat() }}",
+  "dateModified": "{{ page.metadata.written.isoformat() }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.author }}",
+    "url": "{{ absolute_url_for('about.html') }}"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "{{ site.author }}",
+    "url": "{{ site.url }}"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ absolute_url_for(page.url) }}"
+  },
+  "keywords": "{{ page.metadata.topics|join(', ') }}",
+  "inLanguage": "{{ page.metadata.lang|default(site.language) }}"
+}
+{% endblock %}
+
+{% block nav_blog %}active{% endblock %}
+
+{% block content %}
+<article class="post">
+    <header class="post-header">
+        <div class="post-topbar">
+            <div class="post-meta-top">
+                <time datetime="{{ page.metadata.written.isoformat() }}">{{ page.metadata.written | date }}</time>
+                <span class="post-author">by {{ site.author }}</span>
+            </div>
+            <div class="post-header-actions">
+                {{ macros.language_switcher(page) }}
+                {{ macros.share_menu(page, site, 'share-menu-top') }}
+            </div>
+        </div>
+    </header>
+    {% if page.metadata.topics %}
+    <div class="post-topics-header">
+        {% for topic in page.metadata.topics %}
+        <a href="{{ url_for('blog') }}?topic={{ topic }}" class="post-topic">{{ topic }}</a>{% if not loop.last %} {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="post-content">
+        {{ page.html|safe }}
+    </div>
+    <footer class="post-footer">
+        <nav class="post-nav post-nav-bottom-flex">
+            {% if page.previous %}
+            <div class="post-nav-prev">
+                <a href="{{ url_for('content/' + page.previous.slug + '.html') }}" title="Previous article">
+                    <span class="nav-arrow" aria-hidden="true">&#8592;</span> {{ page.previous.metadata.title }}
+                </a>
+            </div>
+            {% else %}
+            <div></div> {# Add placeholder if no previous post to maintain layout #}
+            {% endif %}
+
+            {% if page.next %}
+            <div class="post-nav-next">
+                <a href="{{ url_for('content/' + page.next.slug + '.html') }}" title="Next article">
+                    {{ page.next.metadata.title }} <span class="nav-arrow" aria-hidden="true">&#8594;</span>
+                </a>
+            </div>
+            {% else %}
+            <div></div> {# Add placeholder if no next post #}
+            {% endif %}
+        </nav>
+    </footer>
+</article>
+<aside class="related-posts">
+    <div class="related-header">
+        <h3>Related Articles</h3>
+        {{ macros.share_menu(page, site, 'share-menu-bottom') }}
+    </div>
+    <div class="post-grid">
+        {% for related in page.related[:3] %}
+        <article class="post-card">
+            <div class="post-card-content">
+                <h4><a href="{{ url_for('content/' + related.slug + '.html') }}">{{ related.metadata.title }}</a></h4>
+                <div class="post-meta">
+                    <time datetime="{{ related.metadata.written.isoformat() }}">{{ related.metadata.written | date }}</time>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</aside>
+{% endblock %}

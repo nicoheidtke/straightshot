@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  
+jobs:
+  build-and-test:
+    uses: ./.github/workflows/setup-python.yml
+    with:
+      python-version: '3.12'
+      run-checks: true
+      build-package: true
+
+  release:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true        
+      
+      - name: Build package for release
+        run: poetry build
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          body: |
+            Release ${{ github.ref_name }}
+            
+            ## Installation
+            
+            ```bash
+            pip install https://github.com/nicoheidtke/straightshot/releases/download/${{ github.ref_name }}/straightshot-${{ github.ref_name }}.tar.gz
+            ```
+            
+            Or install directly from PyPI (once published):
+            ```bash
+            pip install straightshot==${{ github.ref_name }}
+            ```
+            
+            ## Documentation
+            
+            After installation, view the built-in documentation:
+            ```bash
+            straightshot docs features
+            straightshot docs architecture
+            ```
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
+          draft: false
+          prerelease: false

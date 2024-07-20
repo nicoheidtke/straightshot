@@ -1,0 +1,14 @@
+# Enforce LF line endings for code and config files
+* text=auto eol=lf
+
+# Specific file types
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.lock text eol=lf
