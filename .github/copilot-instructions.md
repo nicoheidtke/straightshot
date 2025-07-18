@@ -17,7 +17,7 @@ straightshot is a Python-based static site generator with dynamic article loadin
 ### Maintenance 
 When asked to perform a `maintenance routine`, run these steps:
 - Update dependencies in `pyproject.toml` to latest versions using `poetry update`
-- Scan for dead code and remove it
+- Scan for dead code and remove it after getting confirmation from me
 - Check for code quality issues using `ruff` and `mypy`
 - Run all tests and ensure they pass
 - Ensure the build process works as expected and the `pyproject.toml` build tasks are up-to-date and aligned with `.vscode/tasks.json`

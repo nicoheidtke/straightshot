@@ -1,6 +1,6 @@
 [project]
 name = "straightshot"
-version = "0.2.0"
+version = "0.2.1"
 description = "A Python static site generator focused on simplicity and dynamic content loading."
 authors = [
     {name = "Nico Heidtke", email = "straightshot@gmx.de"}
