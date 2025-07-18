@@ -5,14 +5,34 @@ straightshot is a Python-based static site generator with dynamic article loadin
 
 ### Project Documentation & Configuration
 - Always consider `README.md`, `.gitignore`, `pyproject.toml` and `.vscode/tasks.json` when working on dev/build code and always update them as needed
-- Always consider `docs/architecture.md` and `docs/features.md` when working on site generation features
+- Always consider `docs/dev/architecture.md` and `docs/user/_overview.md` when working on site generation features
 - Maintain the `CHANGELOG.md` file to document notable changes which are visible for users
 - Use LF line-endings for all files (see `.editorconfig`)
 
 ### Development Process
 - Ask questions to get clarifications - especially if something is questionable from design or engineering perspective before implementing
 - Discuss and provide options before altering architecture, dependencies or features
-- After making changes, check for problems using: `poetry poe all`
+- After making changes, check for problems using a fitting build tasks from `pyproject.toml` or `.vscode/tasks.json`
+
+### Maintenance 
+When asked to perform a `maintenance routine`, run these steps:
+- Update dependencies in `pyproject.toml` to latest versions using `poetry update`
+- Scan for dead code and remove it
+- Check for code quality issues using `ruff` and `mypy`
+- Run all tests and ensure they pass
+- Ensure the build process works as expected and the `pyproject.toml` build tasks are up-to-date and aligned with `.vscode/tasks.json`
+- Ensure the example site builds and runs correctly
+- Update the `CHANGELOG.md` with a new version entry based on the recent git history and the changes made.
+- Ensure all internal and external documentation is up-to-date with the latest changes. 
+- All links to internal and external documentation are valid.
+
+### Release Preparation
+When asked to perform a `release preparation`, follow these steps:
+- Update the version in `pyproject.toml` to the next version (e.g. `0.1.0` to `0.2.0`). Ask for the next version number if not specified.
+- Update the `CHANGELOG.md` with a new version entry, including a summary of changes
+- Commit the changes with a message like `Bump version to 0.2.0`
+- Tag the commit with `git tag -a v0.2.0 -m "Release version 0.2.0"`
+- Do not pull or push anything. This is done manually.
 
 ### Code Quality & Refactoring Principles
 - Minimize redundancy and maximize code reuse

@@ -55,5 +55,5 @@ data:
     built_with: "straightshot"
   
   # Include external data files
-  navigation: $$include_yaml data/navigation.yaml
-  config: $$include_json data/site-config.json
+  navigation: $$include_yaml content/data/navigation.yaml
+  config: $$include_json content/data/site-config.json

@@ -4,9 +4,9 @@ Configure your straightshot site through a main `site.yaml` file that controls s
 
 ## Main Configuration File
 
-### `content/site.yaml`
+### `site.yaml`
 
-The central configuration file that defines your site:
+The central configuration file in your project root that defines your site:
 
 ```yaml
 # Site configuration from `site.yaml`
@@ -86,7 +86,7 @@ straightshot build \
   --templates-dir templates \
   --static-dir static \
   --output-dir _site \
-  --site-config content/site.yaml
+  --site-config site.yaml
 
 # Additional options
 straightshot build \
@@ -94,7 +94,7 @@ straightshot build \
   --templates-dir templates \
   --static-dir static \
   --output-dir _site \
-  --site-config content/site.yaml \
+  --site-config site.yaml \
   --drafts \           # Include draft articles
   --verbose \          # Enable verbose output  
   --clean \            # Clean output directory before building

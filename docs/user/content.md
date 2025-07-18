@@ -8,7 +8,6 @@ straightshot organizes content in a logical directory structure:
 
 ```
 content/
-├── site.yaml              # Site configuration
 ├── about.md               # Static pages
 ├── data/                  # Site data files
 ├── drafts/                # Unpublished content
@@ -17,6 +16,8 @@ content/
 │   └── talks/             # Presentations
 └── static/                # Assets (CSS, JS, images)
 ```
+
+The site configuration is kept in `site.yaml` in the project root, separate from content.
 
 ## Writing Articles
 

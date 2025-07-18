@@ -50,8 +50,8 @@ def discover_documentation_files() -> dict[str, str]:
             relative_path = md_file.relative_to(docs_root)
 
             # Convert path to a logical name
-            # features.md -> "features"
-            # features/getting-started.md -> "features/getting-started"
+            # _overview.md -> "_overview"
+            # bla/foo.md -> "bla/foo"
             logical_name = str(relative_path.with_suffix("")).replace("\\", "/")
             docs_map[logical_name] = str(relative_path)
 

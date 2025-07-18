@@ -37,8 +37,8 @@ Create a simple site structure:
 
 ```
 my-site/
+├── site.yaml              # Site configuration
 ├── content/
-│   ├── site.yaml           # Site configuration
 │   ├── index.md           # Home page content
 │   └── publish/           # Blog articles and content
 │       ├── articles/
@@ -75,10 +75,10 @@ straightshot build \
   --templates-dir my-site/templates \
   --static-dir my-site/static \
   --output-dir output \
-  --site-config my-site/content/site.yaml
+  --site-config my-site/site.yaml
 ```
 
-For detailed configuration and features, see the [Features Documentation](docs/features.md).
+For detailed configuration and features, see the [Features Documentation](docs/user/_overview.md).
 
 ### Example Site
 
@@ -97,8 +97,8 @@ You can use this as a starting point or reference for building your own site.
 
 ## Documentation
 
-- **[Features Documentation](docs/features.md)**: An explanation of all features including Markdown processing, templating, media embeds, and configuration options
-- **[Architecture Documentation](docs/architecture.md)**: Information about the internal design, build process, and technical decisions
+- **[Features Documentation](docs/user/_overview.md)**: An explanation of all features including Markdown processing, templating, media embeds, and configuration options
+- **[Architecture Documentation](docs/dev/architecture.md)**: Information about the internal design, build process, and technical decisions
 - **[Development Guide](DEVELOPMENT.md)**: Development tasks, setup instructions, and contribution workflow
 - **[Changelog](CHANGELOG.md)**: Version history and notable changes
 - **[Contributing Guidelines](CONTRIBUTING.md)**: Current project status and contribution information

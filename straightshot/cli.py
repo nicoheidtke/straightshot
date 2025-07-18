@@ -55,7 +55,7 @@ def setup_args() -> argparse.Namespace:
         "--site-config",
         type=Path,
         required=True,
-        help="Path to the site configuration YAML file (e.g., site.yaml)",
+        help="Path to the site configuration YAML file (e.g., site.yaml in project root)",
     )
     build_parser.add_argument(
         "--drafts", action="store_true", help="Include draft articles"
@@ -110,7 +110,7 @@ def setup_args() -> argparse.Namespace:
     parser.add_argument(
         "--site-config",
         type=Path,
-        help="Path to the site configuration YAML file (e.g., site.yaml)",
+        help="Path to the site configuration YAML file (e.g., site.yaml in project root)",
     )
     parser.add_argument("--drafts", action="store_true", help="Include draft articles")
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")

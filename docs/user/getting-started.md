@@ -27,8 +27,8 @@ Create a basic site structure:
 
 ```
 my-site/
+├── site.yaml              # Site configuration
 ├── content/
-│   ├── site.yaml           # Site configuration
 │   ├── about.md           # About page content  
 │   └── publish/           # Published articles
 │       └── articles/
@@ -47,7 +47,7 @@ my-site/
 
 ### 2. Basic Site Configuration
 
-Create `content/site.yaml`:
+Create `site.yaml`:
 
 ```yaml
 title: "My Blog"
@@ -102,7 +102,7 @@ straightshot build \
   --templates-dir my-site/templates \
   --static-dir my-site/static \
   --output-dir my-site/output \
-  --site-config my-site/content/site.yaml
+  --site-config my-site/site.yaml
 ```
 
 ### 5. Preview Your Site

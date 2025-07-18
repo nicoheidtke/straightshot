@@ -110,6 +110,6 @@ format = "ruff format straightshot/ example-site/serve.py"
 package = "poetry build"
 all.sequence = ["format", "check", "package"]
 
-example_build = "python -m straightshot.main --content-dir example-site/content --templates-dir example-site/templates --static-dir example-site/static --output-dir .build/example-site --site-config example-site/content/site.yaml --clean --drafts"
+example_build = "python -m straightshot.main --content-dir example-site/content --templates-dir example-site/templates --static-dir example-site/static --output-dir .build/example-site --site-config example-site/site.yaml --clean --drafts"
 example_serve = "python example-site/serve.py .build/example-site"
 example.sequence = ["example_build", "example_serve"]
