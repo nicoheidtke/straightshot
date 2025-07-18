@@ -13,11 +13,11 @@ def _get_docs_root() -> Path | None:
 
         spec = importlib.util.find_spec("straightshot")
         if spec and spec.origin:
-            # Look for docs included via MANIFEST.in at site-packages/docs/
+            # Look for docs included via MANIFEST.in at site-packages/docs/user/
             package_file = Path(
                 spec.origin
             )  # .../site-packages/straightshot/__init__.py
-            docs_dir = package_file.parent.parent / "docs"
+            docs_dir = package_file.parent.parent / "docs" / "user"
             if docs_dir.exists():
                 return docs_dir
     except (ImportError, AttributeError, OSError):
@@ -26,7 +26,7 @@ def _get_docs_root() -> Path | None:
     # Method 2: Try local development files
     try:
         project_root = Path(__file__).parent.parent
-        local_path = project_root / "docs"
+        local_path = project_root / "docs" / "user"
         if local_path.exists():
             return local_path
     except OSError:

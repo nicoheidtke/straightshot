@@ -17,7 +17,7 @@ from straightshot.docs_utils import discover_documentation_files, get_doc_conten
 from straightshot.models import ContentProcessingConfig, SiteContext
 
 
-def show_documentation(doc_name: str = "features") -> None:
+def show_documentation(doc_name: str | None = None) -> None:
     """Display documentation from the package."""
     # Discover available documentation
     docs_map = discover_documentation_files()
@@ -26,6 +26,17 @@ def show_documentation(doc_name: str = "features") -> None:
         print("No documentation files found.")
         print()
         print("You can find the documentation online at:")
+        print("https://github.com/nicoheidtke/straightshot/tree/main/docs")
+        return
+
+    # If no specific document requested, list all available documentation
+    if doc_name is None:
+        print("Available documentation:")
+        for name in sorted(docs_map.keys()):
+            print(f"  - {name}")
+        print()
+        print("Use 'straightshot docs <name>' to view specific documentation.")
+        print("You can also find the documentation online at:")
         print("https://github.com/nicoheidtke/straightshot/tree/main/docs")
         return
 

@@ -81,13 +81,9 @@ def setup_args() -> argparse.Namespace:
     docs_parser.add_argument(
         "doc_name",
         nargs="?",
-        default="features"
-        if "features" in docs_choices
-        else docs_choices[0]
-        if docs_choices
-        else "features",
+        default=None,
         choices=docs_choices,
-        help="Documentation to display (default: features)",
+        help="Documentation to display (default: list all available docs)",
     )
 
     # For backward compatibility, add the build arguments at the top level too

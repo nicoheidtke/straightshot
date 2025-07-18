@@ -44,7 +44,7 @@ straightshot = "straightshot.main:main"
 package-mode = true
 packages = [{include = "straightshot"}]
 include = [
-    "docs/features.md",
+    "docs/user/**/*",
     "example-site/**/*",
     "README.md",
     "LICENSE"
