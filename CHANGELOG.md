@@ -5,6 +5,19 @@ I hope to document notable changes to this project if it turns out somebody othe
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2025-07-19
+
+### Improved
+- **Enhanced logging throughout the build process** for better visibility and debugging
+- Added detailed debug logging for individual content file processing (use `--verbose`)
+- Improved static asset copying with file count reporting
+- Enhanced template error reporting with line numbers and detailed context
+- Added debug logs for standalone page rendering with template→output mapping
+
+### Fixed
+- Removed duplicate "Building site..." log messages
+- Improved template error handling with specific Jinja2 exception catching
+
 ## [0.2.1] - 2025-07-19
 
 ### Changed

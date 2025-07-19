@@ -127,7 +127,7 @@ def main() -> None:
                 output_dir=args.output_dir,
             )
 
-            logger.info("Building site...")
+            logger.info("Starting site build...")
             result = build_site(site_context, content_config)
 
             if not result.success:

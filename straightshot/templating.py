@@ -8,7 +8,13 @@ from pathlib import Path
 from typing import Any, Dict
 
 import frontmatter
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import (
+    Environment,
+    FileSystemLoader,
+    TemplateRuntimeError,
+    TemplateSyntaxError,
+    select_autoescape,
+)
 from markupsafe import Markup
 
 from straightshot.content_processor import process_markdown_content
@@ -116,14 +122,28 @@ def render_template(
     env: Environment, template_name: str, context: Dict[str, Any]
 ) -> str:
     """Render a template to a string."""
-    template = env.get_template(template_name)
-    full_context = {**context}
-    if (
-        "site" not in full_context and "page" in context
-    ):  # Add site context if rendering a page
-        # This assumes 'page' context implies needing 'site' context, adjust if needed
-        # A better approach might be to always ensure 'site' is passed explicitly
-        # from the orchestration layer. For now, mimic old behavior.
-        pass  # The orchestration layer should now explicitly pass 'site' if needed.
+    logger = logging.getLogger(__name__)
 
-    return template.render(full_context)
+    try:
+        template = env.get_template(template_name)
+        full_context = {**context}
+        if (
+            "site" not in full_context and "page" in context
+        ):  # Add site context if rendering a page
+            # This assumes 'page' context implies needing 'site' context, adjust if needed
+            # A better approach might be to always ensure 'site' is passed explicitly
+            # from the orchestration layer. For now, mimic old behavior.
+            pass  # The orchestration layer should now explicitly pass 'site' if needed.
+
+        return template.render(full_context)
+    except TemplateSyntaxError as e:
+        logger.error(
+            f"Template syntax error in {template_name} at line {e.lineno}: {e.message}"
+        )
+        raise
+    except TemplateRuntimeError as e:
+        logger.error(f"Template runtime error in {template_name}: {e.message}")
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error rendering template {template_name}: {e}")
+        raise

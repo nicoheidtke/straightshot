@@ -51,7 +51,10 @@ def process_content(
     """Process and render content files."""
     logger = logging.getLogger(__name__)
     logger.info(f"Rendering {len(content_files)} content files...")
+
     for content_file in content_files:
+        logger.debug(f"Processing content file: {content_file.path}")
+
         # Process custom tags first, passing the Jinja environment
         content_file.html = process_custom_tags(
             content_file.html,
@@ -73,6 +76,21 @@ def process_content(
                 build_result,
             ):
                 build_result.success = False
+        except jinja2.TemplateNotFound as e:
+            error_msg = f"Template not found for content file {content_file.path}: {e}"
+            logger.error(error_msg)
+            build_result.errors.append(error_msg)
+            build_result.success = False
+        except jinja2.TemplateSyntaxError as e:
+            error_msg = f"Template syntax error in article.html at line {e.lineno} (processing {content_file.path}): {e.message}"
+            logger.error(error_msg)
+            build_result.errors.append(error_msg)
+            build_result.success = False
+        except jinja2.TemplateRuntimeError as e:
+            error_msg = f"Template runtime error in article.html (processing {content_file.path}): {e.message}"
+            logger.error(error_msg)
+            build_result.errors.append(error_msg)
+            build_result.success = False
         except Exception as e:
             error_msg = f"Error rendering template for {content_file.path}: {e}"
             logger.error(error_msg)
@@ -116,7 +134,13 @@ def build_standalone_pages(
     """Render all standalone pages as defined in the site configuration."""
     logger = logging.getLogger(__name__)
 
+    logger.info(f"Rendering {len(site_context.standalone_pages)} standalone pages...")
+
     for page_cfg in site_context.standalone_pages:
+        logger.debug(
+            f"Rendering standalone page: {page_cfg.template} -> {page_cfg.output}"
+        )
+
         context = build_template_context(
             site_context,
             articles=site_context.articles,
@@ -133,6 +157,21 @@ def build_standalone_pages(
                 build_result,
             ):
                 build_result.success = False
+        except jinja2.TemplateNotFound as e:
+            error_msg = f"Template not found for standalone page: {e}"
+            logger.error(error_msg)
+            build_result.errors.append(error_msg)
+            build_result.success = False
+        except jinja2.TemplateSyntaxError as e:
+            error_msg = f"Template syntax error in {page_cfg.template} at line {e.lineno}: {e.message}"
+            logger.error(error_msg)
+            build_result.errors.append(error_msg)
+            build_result.success = False
+        except jinja2.TemplateRuntimeError as e:
+            error_msg = f"Template runtime error in {page_cfg.template}: {e.message}"
+            logger.error(error_msg)
+            build_result.errors.append(error_msg)
+            build_result.success = False
         except Exception as e:
             error_msg = f"Failed to render standalone page {page_cfg.template}: {e}"
             logger.error(error_msg)
@@ -246,13 +285,16 @@ def load_and_process_content(
 
     content_files = []
     for directory in content_config.content_dirs:
+        directory_name = directory.name if directory.name else str(directory)
         logger.info(f"Loading site content from {directory}...")
-        content_files.extend(
-            load_content_files(
-                content_config, build_result, directory, site_context.language
-            )
+        dir_files = load_content_files(
+            content_config, build_result, directory, site_context.language
         )
+        content_files.extend(dir_files)
+        logger.debug(f"Loaded {len(dir_files)} files from {directory_name}")
+
     content_files.sort(key=lambda x: x.metadata.written, reverse=True)
+    logger.debug(f"Total content files loaded: {len(content_files)}")
 
     if not validate_content(build_result, content_files):
         logger.warning("Content validation failed.")
@@ -308,6 +350,7 @@ def generate_site_output(
     )
 
     # Generate article index JSON
+    logger.info("Generating article index JSON...")
     article_index_data = _generate_article_index_data(jinja_env, site_context.articles)
     content_index_json_rel_path = Path("content") / "index.json"
     if not write_json_file(
@@ -358,7 +401,6 @@ def build_site(
 ) -> BuildResult:
     """Build the complete static site."""
     logger = logging.getLogger(__name__)
-    logger.info("Building site...")
 
     start_time = time.time()
     build_result = BuildResult()

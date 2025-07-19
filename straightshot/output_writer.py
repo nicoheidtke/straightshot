@@ -51,21 +51,34 @@ def copy_static_assets(
     static_dir: Path, output_dir: Path, build_result: BuildResult
 ) -> bool:
     """Copy static files from the static directory to the output directory."""
+    import logging
+    import os
+
+    logger = logging.getLogger(__name__)
+
     static_output = output_dir / "static"
 
     if not static_dir.exists():
+        logger.debug(f"Static directory not found, skipping copy: {static_dir}")
         build_result.warnings.append(
             f"Static directory not found, skipping copy: {static_dir}"
         )
         return True  # Not an error if static dir doesn't exist
 
     try:
+        # Count files to copy
+        file_count = sum(1 for root, dirs, files in os.walk(static_dir) for _ in files)
+
+        logger.info(f"Copying {file_count} static files from {static_dir}")
         if static_output.exists():
             shutil.rmtree(static_output)
         shutil.copytree(static_dir, static_output, dirs_exist_ok=True)
+        logger.debug("Successfully copied static assets")
         return True
     except Exception as e:
-        build_result.errors.append(
+        error_msg = (
             f"Error copying static files from {static_dir} to {static_output}: {str(e)}"
         )
+        logger.error(error_msg)
+        build_result.errors.append(error_msg)
         return False
