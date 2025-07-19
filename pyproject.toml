@@ -42,12 +42,12 @@ straightshot = "straightshot.main:main"
 
 [tool.poetry]
 package-mode = true
-packages = [{include = "straightshot"}]
-include = [
-    "docs/user/**/*",
-    "example-site/**/*",
-    "README.md",
-    "LICENSE"
+# This should ensure that code and the resources are part of wheel and source dist
+packages = [
+    {include = "straightshot"},
+    {include = "docs/user", format = ["sdist", "wheel"], to="straightshot"},
+    {include = "example-site", format = ["sdist", "wheel"], to="straightshot"},
+    {include = "LICENSE", from = ".", format = ["sdist", "wheel"], to="straightshot"}
 ]
 
 [tool.poetry.group.dev.dependencies]

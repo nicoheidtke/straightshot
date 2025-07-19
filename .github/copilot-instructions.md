@@ -5,7 +5,7 @@ straightshot is a Python-based static site generator with dynamic article loadin
 
 ### Project Documentation & Configuration
 - Always consider `README.md`, `.gitignore`, `pyproject.toml` and `.vscode/tasks.json` when working on dev/build code and always update them as needed
-- Always consider `docs/dev/architecture.md` and `docs/user/_overview.md` when working on site generation features
+- Always consider `docs/dev/architecture.md` and `docs/user/overview.md` when working on site generation features
 - Maintain the `CHANGELOG.md` file to document notable changes which are visible for users
 - Use LF line-endings for all files (see `.editorconfig`)
 

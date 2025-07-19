@@ -78,8 +78,6 @@ straightshot build \
   --site-config my-site/site.yaml
 ```
 
-For detailed configuration and features, see the [Features Documentation](docs/user/_overview.md).
-
 ### Example Site
 
 A complete example site is included in the repository at [`example-site/`](example-site/). This demonstrates:
@@ -97,7 +95,7 @@ You can use this as a starting point or reference for building your own site.
 
 ## Documentation
 
-- **[Features Documentation](docs/user/_overview.md)**: An explanation of all features including Markdown processing, templating, media embeds, and configuration options
+- **[Features Documentation](docs/user/overview.md)**: An explanation of all features including Markdown processing, templating, media embeds, and configuration options
 - **[Architecture Documentation](docs/dev/architecture.md)**: Information about the internal design, build process, and technical decisions
 - **[Development Guide](DEVELOPMENT.md)**: Development tasks, setup instructions, and contribution workflow
 - **[Changelog](CHANGELOG.md)**: Version history and notable changes
